@@ -6,7 +6,6 @@ import (
 )
 
 const (
-	//MessagePending TODO review and discard unused
 	MessagePending   MessageStatus = 1
 	MessageSent      MessageStatus = 2
 	MessageFail      MessageStatus = 3

@@ -23,7 +23,7 @@ const (
 	Instructions = `This program allows you to send messages of different types to the desired user. Please follow the instruction listed. For more information please refer to the readme file`
 
 	EnterUserMail    = "Please enter the user e-mail: "
-	EnterMessageKey  = "Please enter the message type to send: "
+	EnterMessageKey  = "Please enter the message type to send (%s, %s, %s): "
 	EnterMessage     = "Please enter the message to send to the user: "
 	Again            = "Do you want to send another message ? [y/n]: "
 	GoodBye          = "Good bye!"
@@ -59,7 +59,7 @@ func readMessageType() model.MessageKey {
 	scanner := bufio.NewScanner(os.Stdin)
 	for true {
 		fmt.Println()
-		fmt.Print(EnterMessageKey)
+		fmt.Printf(EnterMessageKey, model.MessageKeyStatus, model.MessageKeyNews, model.MessageKeyMarketing)
 
 		scanner.Scan()
 		if err := scanner.Err(); err != nil {
