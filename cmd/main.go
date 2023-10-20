@@ -1,8 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"github.com/agusnoceto/modak-challenge/internal/model"
 	"github.com/agusnoceto/modak-challenge/internal/notification"
+	"github.com/agusnoceto/modak-challenge/ui"
 	"time"
 )
 
@@ -18,7 +20,19 @@ func main() {
 	limiter := notification.NewRateLimiter(rules, repository)
 	service := notification.NewRateLimitingService(repository, *gateway, limiter)
 
-	service.Send(model.MessageKeyNews, "test@email.com", "Message 1")
-	service.Send(model.MessageKeyNews, "test@email.com", "Message 2")
+	ui.PrintWelcomeMessage()
 
+	keepSending := true
+
+	for keepSending {
+		ui.PrintDelimiter()
+
+		key, email, msg := ui.ReadValues()
+		err := service.Send(key, email, msg)
+		if err != nil {
+			fmt.Println(fmt.Sprintf("Error: %s", err))
+		}
+		keepSending = ui.SendAnotherMessage()
+	}
+	ui.PrintGoodBye()
 }
