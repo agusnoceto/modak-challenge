@@ -1,0 +1,17 @@
+[
+  {
+    "name" : "news",
+    "interval" : "24h",
+    "limit" : 2
+  },
+  {
+    "name" : "marketing",
+    "interval" : "1h",
+    "limit" : 3
+  },
+  {
+    "name" : "status",
+    "interval" : "1m",
+    "limit" : 2
+  }
+]

@@ -11,9 +11,9 @@ import (
 type ServiceTestSuite struct {
 	suite.Suite
 	repository *mocks.Repository
-	gateway    Gateway
+	gateway    gateway
 	limiter    *mocks.Limiter
-	service    *RateLimitedService
+	service    *rateLimitedService
 }
 
 func TestServiceTestSuite(t *testing.T) {

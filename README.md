@@ -22,3 +22,15 @@ Etc. these are just samples, the system might have several rate limit rules!
 
 Please run `make help` for information on how to run this app.
 
+## The Rules
+
+The rules are configurable, and presented in a json file in the main directory of the app, named `rules.json`. If you want to add/modify/remove any  rule, please follow the format in said json, taking into account that the acceptable interval values are the following:
+- "ns": Nanosecond
+- "us": Microsecond
+- "µs": Microsecond
+- "μs": Microsecond
+- "ms": Millisecond
+- "s":  Second
+- "m":  Minute
+- "h":  Hour
+

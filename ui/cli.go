@@ -23,7 +23,7 @@ const (
 	Instructions = `This program allows you to send messages of different types to the desired user. Please follow the instruction listed. For more information please refer to the readme file`
 
 	EnterUserMail    = "Please enter the user e-mail: "
-	EnterMessageKey  = "Please enter the message type to send: "
+	EnterMessageKey  = "Please enter the message type to send (%s): "
 	EnterMessage     = "Please enter the message to send to the user: "
 	Again            = "Do you want to send another message ? [y/n]: "
 	GoodBye          = "Good bye!"
@@ -47,19 +47,25 @@ func PrintDelimiter() {
 	fmt.Println(MessageDelimiter)
 }
 
-func ReadValues() (model.MessageKey, string, string) {
-	key := readMessageType()
+func ReadValues(rules map[model.MessageKey]model.RateRule) (model.MessageKey, string, string) {
+	key := readMessageType(rules)
 	email := readEmail()
 	msg := readMessage()
 	fmt.Println()
 	return key, email, msg
 }
 
-func readMessageType() model.MessageKey {
+func readMessageType(rules map[model.MessageKey]model.RateRule) model.MessageKey {
 	scanner := bufio.NewScanner(os.Stdin)
 	for true {
 		fmt.Println()
-		fmt.Print(EnterMessageKey)
+		var keyNames []string
+		for key := range rules {
+			keyNames = append(keyNames, string(key))
+		}
+
+		keys := strings.Join(keyNames, ", ")
+		fmt.Printf(EnterMessageKey, keys)
 
 		scanner.Scan()
 		if err := scanner.Err(); err != nil {
@@ -67,7 +73,7 @@ func readMessageType() model.MessageKey {
 		}
 
 		key := scanner.Text()
-		if !isValidKey(key) {
+		if !isValidKey(rules, key) {
 			fmt.Println("Error. Please enter a valid message type")
 			continue
 		}
@@ -76,13 +82,13 @@ func readMessageType() model.MessageKey {
 	return ""
 }
 
-func isValidKey(key string) bool {
-	switch model.MessageKey(key) {
-	case model.MessageKeyStatus, model.MessageKeyNews, model.MessageKeyMarketing:
-		return true
-	default:
-		return false
+func isValidKey(rules map[model.MessageKey]model.RateRule, key string) bool {
+	for r := range rules {
+		if r == model.MessageKey(key) {
+			return true
+		}
 	}
+	return false
 }
 
 func readEmail() string {

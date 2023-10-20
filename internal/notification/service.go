@@ -5,30 +5,30 @@ import (
 	"github.com/agusnoceto/modak-challenge/internal/model"
 )
 
-type Gateway struct{}
+type gateway struct{}
 
-func NewGateway() *Gateway {
-	return &Gateway{}
+func NewGateway() *gateway {
+	return &gateway{}
 }
-func (g *Gateway) Send(email string, msg string) {
+func (g *gateway) Send(email string, msg string) {
 	fmt.Printf("Sending msg to user %s: %s\n", email, msg)
 }
 
-type RateLimitedService struct {
+type rateLimitedService struct {
 	repository Repository
-	gateway    Gateway
+	gateway    gateway
 	limiter    Limiter
 }
 
-func NewRateLimitingService(repository Repository, gateway Gateway, limiter Limiter) *RateLimitedService {
-	return &RateLimitedService{
+func NewRateLimitingService(repository Repository, gateway gateway, limiter Limiter) *rateLimitedService {
+	return &rateLimitedService{
 		repository: repository,
 		gateway:    gateway,
 		limiter:    limiter,
 	}
 }
 
-func (s *RateLimitedService) Send(key model.MessageKey, email string, msg string) error {
+func (s *rateLimitedService) Send(key model.MessageKey, email string, msg string) error {
 	allow, err := s.limiter.Allow(key, email)
 	if err != nil {
 		return err
