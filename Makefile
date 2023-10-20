@@ -38,4 +38,4 @@ build-docker: check-deps ## Build inside docker container.
 
 .PHONY: run-docker
 run-docker: build-docker ## Run the docker image.
-	$(DOCKER) run -p 8080:8080 $(APP):$(BUILD_TAG)
+	$(DOCKER) run -it $(APP):$(BUILD_TAG)
